@@ -25,6 +25,7 @@
 	let ttfFontDataUrl = "";
 	let ttfFontLoaded = false;
 	let showSidebar = true;
+	let fontReadyVersion = 0; // 웹폰트 로드 invalidate용 더미 상태 변수
 
 	// mm → px 변환 함수
 	function mmToPx(mm, dpi) {
@@ -62,6 +63,10 @@
 		const match = webFontUrl.match(/family=([^&:]+)/);
 		if (match) {
 			fontFamily = decodeURIComponent(match[1]).replace(/\+/g, " ");
+			// 폰트 로드 대기 후 invalidate
+			document.fonts.load(`bold 32px '${fontFamily}'`).then(() => {
+				fontReadyVersion += 1;
+			});
 		}
 	}
 
@@ -85,6 +90,8 @@
 
 	// 캔버스에 패널 그리기 (폰트 적용)
 	$: {
+		// fontReadyVersion이 바뀌면 무조건 다시 그림
+		fontReadyVersion;
 		if (ctx) {
 			if (fontType === "ttf" && !ttfFontLoaded) {
 				// TTF 폰트가 로드될 때까지 렌더링 건너뜀
@@ -214,7 +221,7 @@
 							required
 						/>
 					</label>
-					<label
+					<!-- <label
 						>DPI:
 						<select bind:value={dpi} class="dpi-select">
 							<option value="150">150</option>
@@ -223,7 +230,7 @@
 							<option value="600">600</option>
 							<option value="1200">1200</option>
 						</select>
-					</label>
+					</label> -->
 					<label
 						>여백(px):
 						<input
