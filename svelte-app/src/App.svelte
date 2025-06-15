@@ -143,7 +143,7 @@
 
 <main>
 	<button
-		class="sidebar-toggle-btn"
+		class="sidebar-toggle-btn button"
 		on:click={() => (showSidebar = !showSidebar)}
 	>
 		{showSidebar ? "◀" : "▶"}
@@ -152,10 +152,52 @@
 		{#if showSidebar}
 			<div class="sidebar">
 				<h1 style="margin-top:0;">한글 시계 패널 생성기</h1>
-				<h2 style="margin-bottom:0.5em;">패널 설정</h2>
+				<!-- <h2 style="margin-bottom:0.5em;">패널 설정</h2> -->
 				<form autocomplete="off">
+					<fieldset
+						style="margin:1em 0; padding:1em; border:1px solid #ccc;"
+					>
+						<legend>글꼴 선택</legend>
+						<label style="margin-right:1em;"
+							><input
+								type="radio"
+								bind:group={fontType}
+								value="web"
+							/> 웹폰트</label
+						>
+						<label
+							><input
+								type="radio"
+								bind:group={fontType}
+								value="ttf"
+							/> TTF 업로드</label
+						>
+						{#if fontType === "web"}
+							<input
+								type="text"
+								placeholder="웹폰트 링크 (Google Fonts 등)"
+								bind:value={webFontUrl}
+								style="width:80%;margin-top:0.5em;"
+								class="webfont-input"
+							/>
+						{/if}
+						{#if fontType === "ttf"}
+							<input
+								type="file"
+								accept=".ttf,.otf"
+								on:change={handleTtfUpload}
+								style="margin-top:0.5em;"
+								class="ttf-input"
+							/>
+						{/if}
+						<div
+							style="margin-top:0.5em; font-size:0.95em; color:#666;"
+						>
+							현재 적용 폰트: <b>{fontFamily}</b>
+						</div>
+					</fieldset>
 					<label
-						>패널 크기(Size, mm):
+						>패널 크기(mm):
 						<input
 							type="number"
 							bind:value={panelSizeMM}
@@ -165,7 +207,7 @@
 						/>
 					</label>
 					<label
-						>패널 패딩(Padding, mm):
+						>패널 패딩(mm):
 						<input
 							type="number"
 							bind:value={paddingMM}
@@ -206,58 +248,18 @@
 					</label>
 					<label style="display:flex;align-items:center;gap:0.5em;"
 						><input type="checkbox" bind:checked={invertColor} /> 색상
-						반전 (기본: 반전)</label
+						반전</label
 					>
 					<label style="display:flex;align-items:center;gap:0.5em;"
 						><input type="checkbox" bind:checked={flipHorizontal} />
-						좌우 반전 (기본: 반전)</label
+						좌우 반전</label
 					>
-					<fieldset
-						style="margin:1em 0; padding:1em; border:1px solid #ccc;"
-					>
-						<legend>글꼴 선택</legend>
-						<label style="margin-right:1em;"
-							><input
-								type="radio"
-								bind:group={fontType}
-								value="web"
-							/> 웹폰트</label
-						>
-						<label
-							><input
-								type="radio"
-								bind:group={fontType}
-								value="ttf"
-							/> TTF 업로드</label
-						>
-						{#if fontType === "web"}
-							<input
-								type="text"
-								placeholder="웹폰트 링크 (Google Fonts 등)"
-								bind:value={webFontUrl}
-								style="width:80%;margin-top:0.5em;"
-							/>
-						{/if}
-						{#if fontType === "ttf"}
-							<input
-								type="file"
-								accept=".ttf,.otf"
-								on:change={handleTtfUpload}
-								style="margin-top:0.5em;"
-							/>
-						{/if}
-						<div
-							style="margin-top:0.5em; font-size:0.95em; color:#666;"
-						>
-							현재 적용 폰트: <b>{fontFamily}</b>
-						</div>
-					</fieldset>
 				</form>
 				<div style="margin-top:2em; text-align:center;">
 					<button
 						type="button"
 						on:click={downloadCanvas}
-						style="padding:0.7em 2em; font-size:1.1em; border-radius:4px; border:1px solid #aaa; background:#fff; cursor:pointer;"
+						class="button"
 					>
 						PNG로 다운로드
 					</button>
@@ -270,7 +272,7 @@
 					bind:this={canvasEl}
 					width={canvasWidth}
 					height={canvasHeight}
-					style="border:1px solid #aaa; background:#f8f8f8; max-width:100%; height:auto; display:block; margin:0 auto;"
+					style="background:#f8f8f8; max-width:100%; height:auto; display:block; margin:0 auto;"
 				></canvas>
 			</div>
 		</div>
@@ -298,7 +300,9 @@
 	}
 
 	input[type="number"],
-	select.dpi-select {
+	select.dpi-select,
+	input[type="file"],
+	input[type="text"] {
 		width: 100%;
 		font-family: inherit;
 		font-size: inherit;
@@ -307,6 +311,19 @@
 		box-sizing: border-box;
 		border: 1px solid #ccc;
 		border-radius: 2px;
+	}
+
+	.button {
+		padding: 0.7em 2em;
+		font-size: 1.1em;
+		border-radius: 4px;
+		border: 1px solid #aaa;
+		background: #fff;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+	.button:hover {
+		background: #f0f0f0;
 	}
 
 	.app-layout {
@@ -323,18 +340,14 @@
 		width: 320px;
 		min-width: 220px;
 		max-width: 400px;
-		background: #f4f4f4;
+		/* background: #f4f4f4; */
+		padding-right: 1em;
 		border-right: 1px solid #ddd;
-		padding: 1.5em 1em 1em 1.5em;
-		height: 100vh;
-		min-height: 100vh;
 		box-sizing: border-box;
 		position: static;
 		top: 0;
 		z-index: 10;
-	}
-	.sidebar-hidden {
-		display: none !important;
+		color: #222;
 	}
 	.sidebar-toggle-btn {
 		position: fixed;
@@ -376,8 +389,16 @@
 			padding: 1em 0.5em;
 		}
 	}
+	@media (max-width: 600px) {
+		h1 {
+			font-size: 1.3em;
+		}
+		.button {
+			font-size: 1em;
+			padding: 0.5em 1em;
+		}
+	}
 	canvas {
-		border: 1px solid #aaa;
 		background: #f8f8f8;
 		display: block;
 		margin: 0 auto;
