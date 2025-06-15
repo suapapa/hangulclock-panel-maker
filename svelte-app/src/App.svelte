@@ -155,14 +155,18 @@
 	>
 		{showSidebar ? "◀" : "▶"}
 	</button>
+	<button
+		class="sidebar-dl-btn button"
+		on:click={downloadCanvas}
+		aria-label="PNG로 다운로드"
+	>
+		⬇️
+	</button>
 	<div class="app-layout">
 		{#if showSidebar}
 			<div class="sidebar">
 				<div class="sidebar-header">
 					<h1 style="margin-top:0;">한글 시계 패널 생성기</h1>
-					<button class="icon-button" on:click={downloadCanvas} aria-label="PNG로 다운로드">
-						<h1><span style="font-size:0.8em;">⬇️</span></h1>
-					</button>
 				</div>
 				<!-- <h2 style="margin-bottom:0.5em;">패널 설정</h2> -->
 				<form autocomplete="off">
@@ -172,7 +176,10 @@
 						<legend>글꼴 선택</legend>
 						<label style="display:block; margin-bottom:0.7em;">
 							글꼴 방식:
-							<select bind:value={fontType} style="margin-left:0.5em;">
+							<select
+								bind:value={fontType}
+								style="margin-left:0.5em;"
+							>
 								<option value="web">웹폰트</option>
 								<option value="ttf">TTF 업로드</option>
 							</select>
@@ -348,6 +355,18 @@
 	.sidebar-toggle-btn {
 		position: fixed;
 		top: 1em;
+		left: 1em;
+		background: #fff;
+		border: 1px solid #aaa;
+		border-radius: 0 4px 4px 0;
+		padding: 0.5em 0.8em;
+		cursor: pointer;
+		box-shadow: 1px 1px 4px #0001;
+		z-index: 100;
+	}
+	.sidebar-dl-btn {
+		position: fixed;
+		top: 4em;
 		left: 1em;
 		background: #fff;
 		border: 1px solid #aaa;
