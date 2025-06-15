@@ -17,7 +17,7 @@
 	let yOffset = 0;
 	let dpi = "300"; // 문자열로 선언
 	let invertColor = true; // 색상 반전 기본값
-	let flipHorizontal = true; // 좌우 반전 기본값
+	let flipHorizontal = false; // 좌우 반전 기본값
 	let fontType = "web"; // 'web' 또는 'ttf'
 	let webFontUrl = "";
 	let ttfFile = null;
