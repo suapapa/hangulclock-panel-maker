@@ -151,27 +151,25 @@
 	<div class="app-layout">
 		{#if showSidebar}
 			<div class="sidebar">
-				<h1 style="margin-top:0;">한글 시계 패널 생성기</h1>
+				<div class="sidebar-header">
+					<h1 style="margin-top:0;">한글 시계 패널 생성기</h1>
+					<button class="icon-button" on:click={downloadCanvas} aria-label="PNG로 다운로드">
+						<h1><span style="font-size:0.8em;">⬇️</span></h1>
+					</button>
+				</div>
 				<!-- <h2 style="margin-bottom:0.5em;">패널 설정</h2> -->
 				<form autocomplete="off">
 					<fieldset
 						style="margin:1em 0; padding:1em; border:1px solid #ccc;"
 					>
 						<legend>글꼴 선택</legend>
-						<label style="margin-right:1em;"
-							><input
-								type="radio"
-								bind:group={fontType}
-								value="web"
-							/> 웹폰트</label
-						>
-						<label
-							><input
-								type="radio"
-								bind:group={fontType}
-								value="ttf"
-							/> TTF 업로드</label
-						>
+						<label style="display:block; margin-bottom:0.7em;">
+							글꼴 방식:
+							<select bind:value={fontType} style="margin-left:0.5em;">
+								<option value="web">웹폰트</option>
+								<option value="ttf">TTF 업로드</option>
+							</select>
+						</label>
 						{#if fontType === "web"}
 							<input
 								type="text"
@@ -255,15 +253,6 @@
 						좌우 반전</label
 					>
 				</form>
-				<div style="margin-top:2em; text-align:center;">
-					<button
-						type="button"
-						on:click={downloadCanvas}
-						class="button"
-					>
-						PNG로 다운로드
-					</button>
-				</div>
 			</div>
 		{/if}
 		<div class="main-content">
@@ -313,7 +302,7 @@
 		border-radius: 2px;
 	}
 
-	.button {
+	/* .button {
 		padding: 0.7em 2em;
 		font-size: 1.1em;
 		border-radius: 4px;
@@ -321,10 +310,10 @@
 		background: #fff;
 		cursor: pointer;
 		transition: background 0.2s;
-	}
-	.button:hover {
+	} */
+	/* .button:hover {
 		background: #f0f0f0;
-	}
+	} */
 
 	.app-layout {
 		display: flex;
@@ -337,7 +326,7 @@
 		padding: 0;
 	}
 	.sidebar {
-		width: 320px;
+		width: 400px;
 		min-width: 220px;
 		max-width: 400px;
 		/* background: #f4f4f4; */
@@ -393,18 +382,37 @@
 		h1 {
 			font-size: 1.3em;
 		}
-		.button {
+		/* .button {
 			font-size: 1em;
 			padding: 0.5em 1em;
-		}
+		} */
 	}
 	canvas {
-		background: #f8f8f8;
+		background: #ffffff;
 		display: block;
 		margin: 0 auto;
 		max-width: 100%;
 		max-height: 80vh;
 		object-fit: contain;
 		height: auto;
+	}
+	.sidebar-header {
+		display: flex;
+		align-items: center;
+		/* gap: 0.5em; */
+		margin-bottom: 0.5em;
+	}
+	.icon-button {
+		background: none;
+		border: none;
+		padding: 0.2em;
+		margin-left: 0.5em;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		/* 배경, 테두리, 호버 효과 제거 */
+	}
+	.icon-button:hover {
+		background: none;
 	}
 </style>
