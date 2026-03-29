@@ -167,7 +167,7 @@
 		if (!canvasEl) return;
 		const link = document.createElement("a");
 		link.href = canvasEl.toDataURL("image/png");
-		link.download = `hangulclock_panel_${panelSizeMM}x${panelSizeMM}_${dpi}dpi.png`;
+		link.download = `hangulclock_panel_${outputSizeMM}x${outputSizeMM}_${dpi}dpi.png`;
 		link.click();
 	}
 </script>
