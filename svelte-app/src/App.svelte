@@ -122,8 +122,8 @@
 						ctx.translate(canvasWidth, 0);
 						ctx.scale(-1, 1);
 					}
-					const bgColor = currentInvertColor ? "#222" : "#f8f8f8";
-					const fgColor = currentInvertColor ? "#f8f8f8" : "#222";
+					const bgColor = currentInvertColor ? "#000000" : "#ffffff";
+					const fgColor = currentInvertColor ? "#ffffff" : "#000000";
 					ctx.fillStyle = bgColor;
 					ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 					
