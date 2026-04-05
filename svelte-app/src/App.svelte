@@ -26,6 +26,7 @@
 	let ttfFontLoaded = $state(false);
 	let showSidebar = $state(true);
 	let fontReadyVersion = $state(0); // 웹폰트 로드 invalidate용 더미 상태 변수
+	let fontWeight = $state("400"); // 글꼴 두께 (normal, bold, 100~900)
 
 	// mm → px 변환 함수
 	function mmToPx(mm, dpi) {
@@ -109,6 +110,7 @@
 		const currentDpi = dpi;
 		const currentInvertColor = invertColor;
 		const currentFlipHorizontal = flipHorizontal;
+		const currentFontWeight = fontWeight;
 
 		if (canvasEl) {
 			ctx = canvasEl.getContext("2d");
@@ -146,7 +148,7 @@
 					ctx.textAlign = "center";
 					ctx.textBaseline = "middle";
 					ctx.fillStyle = fgColor;
-					ctx.font = `bold ${fontSize}px '${currentFontFamily}', sans-serif`;
+					ctx.font = `${currentFontWeight} ${fontSize}px '${currentFontFamily}', sans-serif`;
 					
 					for (let y = 0; y < rows; y++) {
 						for (let x = 0; x < cols; x++) {
@@ -216,6 +218,18 @@
 							<select bind:value={fontType}>
 								<option value="web">웹폰트 링크</option>
 								<option value="ttf">TTF 파일 업로드</option>
+							</select>
+						</label>
+
+						<label class="select-label">
+							<span>두께</span>
+							<select bind:value={fontWeight}>
+								<option value="100">100 (Thin)</option>
+								<option value="300">300 (Light)</option>
+								<option value="400">400 (Normal)</option>
+								<option value="500">500 (Medium)</option>
+								<option value="700">bold (Bold)</option>
+								<option value="900">900 (Black)</option>
 							</select>
 						</label>
 
